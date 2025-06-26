@@ -5,7 +5,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { LlmModule } from './llm/llm.module';
 import { User } from './entities/user.entity';
+import { LlmModel } from './entities/llm-model.entity';
+import { LlmTest } from './entities/llm-test.entity';
 
 @Module({
   imports: [
@@ -21,13 +24,14 @@ import { User } from './entities/user.entity';
         username: configService.get('DB_USERNAME', 'postgres'),
         password: configService.get('DB_PASSWORD', 'password'),
         database: configService.get('DB_NAME', 'legacy_1'),
-        entities: [User],
+        entities: [User, LlmModel, LlmTest],
         synchronize: configService.get('NODE_ENV') !== 'production',
       }),
       inject: [ConfigService],
     }),
     AuthModule,
     UsersModule,
+    LlmModule,
   ],
   controllers: [AppController],
   providers: [AppService],

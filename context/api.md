@@ -62,4 +62,38 @@ Authorization: Bearer <jwt-token>
 }
 ```
 
+## LLM API
 
+###POST `/llm-tests`
+
+**설명**: 선택한 LLM 모델에 대해 입력 프롬프트를 테스트하고, 실제 출력 결과를 응답으로 제공한다.
+
+**요청 바디**
+```json
+{
+  "llm_model_id": "uuid",
+  "prompt": "당신은 AI 평가 플랫폼입니다. 역할을 설명해주세요."
+}
+```
+
+**요청 응답**
+```json
+{
+  "id": "test-log-uuid",
+  "llm_model": {
+    "id": "uuid",
+    "name": "GPT-4",
+    "provider": "OpenAI"
+  },
+  "prompt": "당신은 AI 평가 플랫폼입니다. 역할을 설명해주세요.",
+  "actual_output": "저는 다양한 LLM을 테스트할 수 있는 평가 플랫폼입니다...",
+  "created_at": "2025-06-25T13:22:11.943Z"
+}
+```
+
+**오류 응답**
+```json
+{
+  "error": "Invalid LLM model ID"
+}
+```

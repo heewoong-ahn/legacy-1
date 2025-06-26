@@ -40,7 +40,18 @@ npm run seed:admin
 - **관리자**: admin@example.com / admin123
 - **일반사용자**: user@example.com / user123
 
-### 5. 서버 실행
+### 5. LLM 모델 생성
+```bash
+npm run seed:llm
+```
+
+이 명령은 다음 LLM 모델들을 생성합니다:
+- **GPT-4** (OpenAI)
+- **GPT-3.5-turbo** (OpenAI)
+- **Claude-3** (Anthropic)
+- **Gemini-Pro** (Google)
+
+### 6. 서버 실행
 ```bash
 # 개발 모드
 npm run start:dev
@@ -62,12 +73,61 @@ npm run start:prod
 ### 사용자 API
 - `GET /users/me` - 현재 사용자 정보
 
+### LLM API
+- `POST /llm-tests` - LLM 테스트 실행
+- `GET /llm-tests/models` - 사용 가능한 LLM 모델 목록
+- `GET /llm-tests/models/:id` - 특정 LLM 모델 정보
+
 ## 🔐 인증
 
 모든 보호된 엔드포인트는 Authorization 헤더에 JWT 토큰이 필요합니다:
 
 ```
 Authorization: Bearer <your-jwt-token>
+```
+
+## 🤖 LLM API 사용 예시
+
+### 1. 로그인
+```bash
+curl -X POST http://localhost:3001/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@example.com",
+    "password": "admin123"
+  }'
+```
+
+### 2. LLM 모델 목록 조회
+```bash
+curl -X GET http://localhost:3001/llm-tests/models \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+### 3. LLM 테스트 실행
+```bash
+curl -X POST http://localhost:3001/llm-tests \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-jwt-token>" \
+  -d '{
+    "llm_model_id": "uuid-of-llm-model",
+    "prompt": "안녕하세요, 자기소개를 해주세요."
+  }'
+```
+
+### 응답 예시
+```json
+{
+  "id": "test-uuid",
+  "llm_model": {
+    "id": "model-uuid",
+    "name": "GPT-4",
+    "provider": "OpenAI"
+  },
+  "prompt": "안녕하세요, 자기소개를 해주세요.",
+  "actual_output": "안녕하세요! 저는 GPT-4 모델입니다. 요청하신 '안녕하세요, 자기소개를 해주세요.' 에 대한 응답을 제공드리겠습니다...",
+  "created_at": "2025-01-25T10:30:00.000Z"
+}
 ```
 
 ## 📚 기술 스택
@@ -92,6 +152,24 @@ Authorization: Bearer <your-jwt-token>
 - `createdAt`
 - `updatedAt`
 
+### LLM Models 테이블
+- `id` (UUID, Primary Key)
+- `name` (모델 이름)
+- `provider` (제공업체: OpenAI, Anthropic, Google 등)
+- `description` (모델 설명)
+- `is_active` (활성화 여부)
+- `config` (JSON, 모델 설정)
+- `created_at`
+- `updated_at`
+
+### LLM Tests 테이블
+- `id` (UUID, Primary Key)
+- `llm_model_id` (Foreign Key to LLM Models)
+- `prompt` (입력 프롬프트)
+- `actual_output` (모델 응답)
+- `metadata` (JSON, 추가 메타데이터)
+- `created_at`
+
 ## 🛠️ 개발 스크립트
 
 ```bash
@@ -106,6 +184,9 @@ npm run test
 
 # 관리자 계정 생성
 npm run seed:admin
+
+# LLM 모델 생성
+npm run seed:llm
 
 # 린트
 npm run lint

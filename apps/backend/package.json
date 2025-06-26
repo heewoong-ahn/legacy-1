@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed:admin": "ts-node src/seeds/create-admin.ts"
+    "seed:admin": "ts-node src/seeds/create-admin.ts",
+    "seed:llm": "ts-node src/seeds/create-llm-models.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

@@ -42,10 +42,20 @@ cd apps/backend
 npm install
 
 # 환경 변수 설정 (.env 파일 생성)
-cp .env.example .env
+cat > .env << EOF
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_NAME=legacy_1
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+NODE_ENV=development
+PORT=3001
+EOF
 
 # 데이터베이스 설정 후 시드 데이터 생성
-npm run seed:admin
+npm run seed:admin  # 관리자 계정 생성
+npm run seed:llm    # LLM 모델 생성
 
 # 개발 서버 실행
 npm run start:dev
@@ -73,6 +83,31 @@ npm run dev
 - **관리자**: admin@example.com / admin123
 - **일반사용자**: user@example.com / user123
 
+## 🤖 LLM 기능 사용법
+
+### 1. LLM 모델 확인
+```bash
+# 백엔드에서 LLM 모델 시드 데이터 생성
+cd apps/backend
+npm run seed:llm
+```
+
+### 2. LLM 테스트 실행
+1. 브라우저에서 http://localhost:3000 접속
+2. 테스트 계정으로 로그인
+3. 대시보드에서 "LLM 테스트" 카드 클릭
+4. 원하는 LLM 모델 선택
+5. 프롬프트 입력 후 "테스트 실행" 버튼 클릭
+6. 결과 확인
+
+### 3. 지원 모델
+- **GPT-4** (OpenAI) - 고성능 언어 모델
+- **GPT-3.5-turbo** (OpenAI) - 빠르고 효율적인 모델  
+- **Claude-3** (Anthropic) - 안전하고 유용한 AI 어시스턴트
+- **Gemini-Pro** (Google) - 멀티모달 AI 모델
+
+> 📝 **참고**: 현재는 모킹된 응답을 제공합니다. 실제 LLM API 연동은 각 provider의 API 키 설정 후 가능합니다.
+
 ## 📋 주요 기능
 
 ### ✅ 구현 완료
@@ -80,12 +115,17 @@ npm run dev
 - [x] JWT 토큰 기반 인증
 - [x] Role 기반 권한 관리 (ADMIN/USER)
 - [x] 반응형 UI
+- [x] **LLM 테스트 기능**
+  - [x] 다양한 LLM 모델 지원 (GPT-4, Claude-3, Gemini-Pro 등)
+  - [x] 실시간 프롬프트 테스트
+  - [x] 테스트 결과 히스토리
+  - [x] 모델별 응답 비교
 
 ### 🚧 개발 예정
 - [ ] 과제 환경 요청 기능
 - [ ] 임시 저장 기능
 - [ ] 관리자 승인 기능
-- [ ] LLM 사전 테스트
+- [ ] 실제 LLM API 연동 (현재는 모킹)
 - [ ] 외부 API 연동
 
 ## 📚 문서
