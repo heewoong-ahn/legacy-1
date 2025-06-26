@@ -97,3 +97,60 @@ Authorization: Bearer <jwt-token>
   "error": "Invalid LLM model ID"
 }
 ```
+## 📝 과제 요청서 API
+
+### POST /tasks  
+**설명**: 과제 요청서를 작성하고 제출합니다. 제출된 요청서는 기본적으로 `pending` 상태로 저장되며, 관리자의 승인 또는 반려를 기다립니다.
+
+**요청 헤더**
+```
+Authorization: Bearer <jwt-token>
+```
+
+**요청**
+```json
+{
+  "title": "LLM 성능 비교",
+  "description": "GPT-4 vs Claude 실험",
+  "department": "AI팀",
+  "pm": "홍길동",
+  "participants": ["김개발", "이실험"],
+  "llm_model_id": "uuid",
+  "expected_duration_days": 7,
+  "expected_effect": "최적 모델 선정",
+  "usage_plan": "프로덕션 전환 고려"
+}
+```
+
+**응답**
+```json
+{
+  "id": "task-uuid",
+  "status": "pending",
+  "created_at": "2025-06-26T04:12:00Z"
+}
+```
+
+### GET /tasks  
+**설명**: 로그인한 사용자의 과제 요청 목록을 조회합니다. 관리자의 경우 전체 요청서를 조회할 수 있습니다.
+
+**요청 헤더**
+```
+Authorization: Bearer <jwt-token>
+```
+
+**응답**
+```json
+[
+  {
+    "id": "task-uuid",
+    "title": "LLM 성능 비교",
+    "status": "approved",
+    "llm_model": {
+      "id": "uuid",
+      "name": "GPT-4"
+    },
+    "created_at": "2025-06-20T02:00:00Z"
+  }
+]
+```

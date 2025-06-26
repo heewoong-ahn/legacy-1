@@ -9,6 +9,8 @@ import { LlmModule } from './llm/llm.module';
 import { User } from './entities/user.entity';
 import { LlmModel } from './entities/llm-model.entity';
 import { LlmTest } from './entities/llm-test.entity';
+import { TasksModule } from './tasks/tasks.module';
+import { Task } from './tasks/entities/task.entity';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { LlmTest } from './entities/llm-test.entity';
         username: configService.get('DB_USERNAME', 'postgres'),
         password: configService.get('DB_PASSWORD', 'password'),
         database: configService.get('DB_NAME', 'legacy_1'),
-        entities: [User, LlmModel, LlmTest],
+        entities: [User, LlmModel, LlmTest, Task],
         synchronize: configService.get('NODE_ENV') !== 'production',
       }),
       inject: [ConfigService],
@@ -32,6 +34,7 @@ import { LlmTest } from './entities/llm-test.entity';
     AuthModule,
     UsersModule,
     LlmModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

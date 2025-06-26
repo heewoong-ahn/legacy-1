@@ -25,8 +25,8 @@ export class User {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  department: string;
+  @Column({ type: 'varchar', nullable: true })
+  department: string | null;
 
   @Column({
     type: 'enum',
