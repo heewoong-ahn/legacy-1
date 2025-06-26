@@ -1,0 +1,40 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- [project-context.md](mdc:context/project-context.md)를 통해 프로젝트의 맥락을 이해할 것.
+- [workflow.md](mdc:context/workflow.md)를 통해 사용자의 제품 사용 방식에 대해 이해할 것. 
+- [features.md](mdc:context/features.md)를 통해 구현되어야 할 기능에 대해서 이해하고, 기능 구현에 있어서 [DB-schema.md](mdc:context/DB-schema.md), [api.md](mdc:context/api.md)를 참고해서 개발할 것. 
+
+
+## 기술         
+- 프론트엔드: Next.js + TypeScript + Tailwind CSS 
+- 백엔드: NestJS (TypeScript) + REST API 서버 
+- 인증: JWT + Role 기반 인증
+- DB: PostgreSQL + TypeORM
+- LLM(Claude 3.5 Sonnet): AWS Bedrock Playground
+
+---
+
+## 디렉토리 구조
+
+```plaintext
+/
+├── apps/
+│   ├── frontend/         # Next.js (사용자 UI)
+│   └── backend/          # NestJS (API 서버)          
+└── context/              # .md 문서 모음
+
+---
+
+## 코드 스타일
+- 파일명: kebab-case 사용
+- 클래스/함수명: PascalCase / camelCase
+- 주석: 함수 상단에 함수 설명 작성
+- 하드코딩은 지양한다
+- 모든 함수는 반환 type을 명시한다
+- 모든 컴포넌트는 `function` 기반으로 작성하고 `default export`는 금지
+
+## 협업 
+- [commit.md](mdc:context/commit.md)의 지침을 따라서 github에 commit할 것. 
